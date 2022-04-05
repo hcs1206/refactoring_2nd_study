@@ -1,0 +1,15 @@
+{
+  "name": "refactoring_study",
+  "version": "1.0.0",
+  "description": "Practice refactoring examples",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "csh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
