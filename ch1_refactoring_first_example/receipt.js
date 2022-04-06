@@ -1,18 +1,19 @@
-function statement(invoice, plays){
+const plays = require('./plays.json');
+
+function statement(invoice){
     let totalAmount = 0;
     let volumeCredits = 0;
     let result = `청구 내역 (고객명: ${invoice.customer})\n`;
     const format = new Intl.NumberFormat("en-US", {style: "currency", currency: "USD", minimumFractionDigits: 2}).format;
 
     for(let performance of invoice.performances){
-        const play = plays[performance.playID];
-        let thisAmount = amountFor(performance, play);
+        let thisAmount = amountFor(performance);
         // 포인트 적립
         volumeCredits += Math.max(performance.audience - 30, 0);
         // 희극 관객 5명마다 추가 포인트 제공
-        if("comedy" == play.type) volumeCredits += Math.floor(performance.audience / 5);
+        if("comedy" == playFor(performance).type) volumeCredits += Math.floor(performance.audience / 5);
 
-        result +=` ${play.name}: ${format(thisAmount/100)} (${performance.audience}석)\n`;
+        result +=` ${playFor(performance).name}: ${format(thisAmount/100)} (${performance.audience}석)\n`;
         totalAmount += thisAmount;
     }
         // 청구 내역을 출력한다
@@ -22,10 +23,10 @@ function statement(invoice, plays){
         return result;
 }
 
-function amountFor(aPerformance, play){
+function amountFor(aPerformance){
     let result = 0;
 
-    switch(play.type){
+    switch(playFor(aPerformance).type){
     case "tragedy":
         result = 40000;
         if(aPerformance.audience > 30){
@@ -40,10 +41,14 @@ function amountFor(aPerformance, play){
         result += 300*aPerformance.audience;
         break;
     default:
-        throw new Error(`알 수 없는 장르: ${play.type}`);
+        throw new Error(`알 수 없는 장르: ${playFor(aPerformance).type}`);
     }
 
     return result;
+}
+
+function playFor(aPerformance){
+    return plays[aPerformance.playID];
 }
 
 module.exports = statement;
