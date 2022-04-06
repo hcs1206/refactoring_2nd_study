@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node_modules/.bin/mocha ./ch1_refactoring_first_example/receipt.spec.js"
+    "test": "node_modules/.bin/mocha ./ch1_refactoring_first_example/statement.spec.js"
   },
   "author": "csh",
   "license": "ISC",
