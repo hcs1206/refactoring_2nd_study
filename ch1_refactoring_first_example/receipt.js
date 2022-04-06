@@ -7,20 +7,23 @@ function statement(invoice){
     const format = new Intl.NumberFormat("en-US", {style: "currency", currency: "USD", minimumFractionDigits: 2}).format;
 
     for(let performance of invoice.performances){
-        let thisAmount = amountFor(performance);
-        // 포인트 적립
-        volumeCredits += Math.max(performance.audience - 30, 0);
-        // 희극 관객 5명마다 추가 포인트 제공
-        if("comedy" == playFor(performance).type) volumeCredits += Math.floor(performance.audience / 5);
+        volumeCredits += volumeCreditsFor(performance);
 
-        result +=` ${playFor(performance).name}: ${format(thisAmount/100)} (${performance.audience}석)\n`;
-        totalAmount += thisAmount;
+        result +=` ${playFor(performance).name}: ${format(amountFor(performance)/100)} (${performance.audience}석)\n`;
+        totalAmount += amountFor(performance);
     }
         // 청구 내역을 출력한다
         result += `총액: ${format(totalAmount/100)}\n`
         result += `적립 포인트: ${volumeCredits}점\n`;
 
         return result;
+}
+
+function volumeCreditsFor(aPerformance){
+    let result = 0;
+    result += Math.max(aPerformance.audience - 30, 0);
+    if("comedy" == playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5);
+    return result;
 }
 
 function amountFor(aPerformance){
