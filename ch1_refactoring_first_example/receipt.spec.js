@@ -5,7 +5,7 @@ const invoices = require('./invoices.json');
 
 describe("receipt.js 모듈의 statement 함수는", ()=>{
     it("json을 분석해 영수증을 출력한다",()=>{
-        let result = statement(invoices[0])
+        let result = statement(invoices[0], plays)
         // result.should.be.equal("청구 내역 (고객명: BigCo)\nHamlet: $650.00 (55석)\n As You Like It: $580.00 (35석)\n Othello: $500.00 (40석)\n 총액: $1,730.00\n적립 포인트: 47점")
         result.should.be.equal(`청구 내역 (고객명: BigCo)
  Hamlet: $650.00 (55석)
